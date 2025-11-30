@@ -1,0 +1,180 @@
+<div class="bg-gradient-to-br from-yellow-900 via-amber-900 to-brown-900 text-white px-6 md:px-10 py-14 
+            flex flex-col lg:flex-row gap-10 min-h-[calc(100vh-76px)]">
+
+  <!-- COLUMNA IZQUIERDA -->
+  <div class="flex flex-col gap-10 w-full lg:w-1/3">
+
+    <!-- CUADRO 1 -->
+<div class="h-72 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 
+            shadow-[0_4px_30px_rgba(0,0,0,0.3)] p-6">
+
+  <h2 class="text-xl font-semibold mb-4">STOCK</h2>
+
+  <!-- GRAFICA DE STOCK -->
+  <canvas id="stockChart" class="w-full max-h-60"></canvas>
+</div>
+
+
+    <!-- CUADRO 2 -->
+<div class="h-64 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 
+            shadow-[0_4px_30px_rgba(0,0,0,0.3)] p-6
+            hover:scale-[1.02] transition-transform duration-300">
+
+  <h2 class="text-xl font-semibold mb-4">TOP VENTAS</h2>
+
+  <!-- AQUI VA LA GRAFICA DE STOCK -->
+   <canvas id="ventasChart" class="w-full max-h-60"></canvas>
+</div>
+
+</div>
+
+
+  <!-- COLUMNA DERECHA -->
+  <div class="flex-1 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 
+              shadow-[0_4px_30px_rgba(0,0,0,0.3)] p-8">
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+      <!-- LISTADO -->
+      <div>
+        <h2 class="text-2xl font-bold mb-4">Listado de Stock</h2>
+
+      <div class="overflow-x-auto max-h-[420px] overflow-y-auto bg-transparent">
+        <table class="border shadow-md rounded-lg overflow-hidden">
+    
+    <thead class="bg-amber-600 text-white">
+      <tr>
+        <th class="px-6 py-3 text-left text-sm font-semibold">Nombre</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold">Grano</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold">Stock</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold">Precio</th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y divide-slate-200">
+
+    @for (p of productos(); track $index){
+        <tr>
+        <td class="px-6 py-4">{{p.nombre}}</td>
+        <td class="px-6 py-4">{{p.grano}}</td>
+        <td class="px-6 py-4">{{p.stock}}</td>
+        <td class="px-6 py-4">{{p.precio}}</td>
+      </tr>
+      }
+      
+  
+    </tbody>
+
+  </table>
+</div>
+
+      </div>
+
+      <!-- FORMULARIO -->
+      <div>
+        <h2 class="text-2xl font-bold mb-4">Crear Producto</h2>
+
+        <form (ngSubmit)="crearProducto()" class="flex flex-col gap-3 text-black">
+
+          <input class="p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-amber-600 outline-none"
+                 placeholder="Nombre"
+                 [ngModel]="productoForm().nombre"
+                 (ngModelChange)="setProductoField('nombre', $event)"
+                 name="p11">
+
+          <input class="p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-amber-600 outline-none"
+                 placeholder="Origen"
+                 [ngModel]="productoForm().origen"
+                 (ngModelChange)="setProductoField('origen', $event)"
+                 name="p12">
+
+          <select class="p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-amber-600 outline-none"
+                  [ngModel]="productoForm().tipo"
+                  (ngModelChange)="setProductoField('tipo', $event)"
+                  name="p13">
+            <option value="">Seleccione tipo</option>
+            <option value="grano">Grano</option>
+            <option value="molido">Molido</option>
+          </select>
+
+          <select class="p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-amber-600 outline-none"
+                  [ngModel]="productoForm().grano"
+                  (ngModelChange)="setProductoField('grano', $event)"
+                  name="p14">
+            <option value="arabica">Arabica</option>
+            <option value="robusta">Robusta</option>
+            <option value="liberica">Liberica</option>
+            <option value="excelsa">Excelsa</option>
+          </select>
+
+          <select class="p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-amber-600 outline-none"
+                  [ngModel]="productoForm().tueste"
+                  (ngModelChange)="setProductoField('tueste', $event)"
+                  name="p15">
+            <option value="">Seleccione tueste</option>
+            <option value="Suave">Suave</option>
+            <option value="Medio">Medio</option>
+            <option value="Fuerte">Fuerte</option>
+          </select>
+
+          <input type="number" min="1" max="10"
+                 class="p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-amber-600 outline-none"
+                 placeholder="Intensidad 1-10"
+                 [ngModel]="productoForm().intensidad"
+                 (ngModelChange)="setProductoField('intensidad', +$event)"
+                 name="p16">
+
+          <button class="bg-amber-700 hover:bg-amber-800 transition-colors text-white p-3 rounded-lg font-semibold shadow-md">
+            Guardar Producto
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+  <!-- ================================================= -->
+  <!-- FORMULARIO CLIENTES -->
+  <!-- ================================================= 
+  <div class="border p-4 rounded shadow bg-white">
+    <h2 class="text-xl font-bold mb-3">Crear Cliente</h2>
+
+    <form (ngSubmit)="crearCliente()" class="flex flex-col gap-2">
+
+      <input class="p-2 border rounded"
+             placeholder="Nombre"
+             [ngModel]="clienteForm().nombre"
+             (ngModelChange)="setClienteField('nombre', $event)"
+             name="c1">
+
+      <input class="p-2 border rounded"
+             placeholder="Apellido 1"
+             [ngModel]="clienteForm().apellido1"
+             (ngModelChange)="setClienteField('apellido1', $event)"
+             name="c2">
+
+      <input class="p-2 border rounded"
+             placeholder="Apellido 2"
+             [ngModel]="clienteForm().apellido2"
+             (ngModelChange)="setClienteField('apellido2', $event)"
+             name="c3">
+
+      <input class="p-2 border rounded"
+             placeholder="Email"
+             [ngModel]="clienteForm().email"
+             (ngModelChange)="setClienteField('email', $event)"
+             name="c4">
+
+      <input class="p-2 border rounded"
+             placeholder="Teléfono"
+             [ngModel]="clienteForm().telefono"
+             (ngModelChange)="setClienteField('telefono', $event)"
+             name="c5">
+
+      <button class="bg-blue-600 text-white p-2 rounded">
+        Guardar Cliente
+      </button>
+    </form>
+  </div>-->
